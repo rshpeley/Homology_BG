@@ -1,0 +1,5 @@
+#!/bin/bash
+#SBATCH --output=/home/j.bahuguna/homology/Mallet/wojc1jc2/slowNormParams/newParams/forReview/d1GPe/healthy/output/test_PDF_H_d1GPe_BL.out#SBATCH --error=/home/j.bahuguna/homology/Mallet/wojc1jc2/slowNormParams/newParams/forReview/d1GPe/healthy/output/test_PDF_H_d1GPe_BL.err#SBATCH --job-name=H_d1GPe_BL
+#SBATCH --mem-per-cpu=3500mb
+#SBATCH --time 24:00:00
+python /home/j.bahuguna/homology/Mallet/wojc1jc2/slowNormParams/newParams/forReview/d1GPe/healthy/GA/H_d1GPe_BL_.py

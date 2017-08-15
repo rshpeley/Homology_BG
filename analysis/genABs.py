@@ -2,7 +2,7 @@ import pickle
 import knownUnknownParamsStrRed as p
 import numpy as np
 
-uniqCombs = pickle.load(open("output/uniqueCombsWithConds.pickle","r"))
+uniqCombs = pickle.load(open("output/uniqueCombs.pickle","r"))
 knownparams = p.params["known"]
 
 AllAs = []

@@ -1,5 +1,0 @@
-#!/bin/bash
-#SBATCH --output=/home/j.bahuguna/homology/Mallet/wojc1jc2/slowNormParams/newParams/forReview/stnta_zero/output/test_PDF_PD_stnta_zero_BL.out#SBATCH --error=/home/j.bahuguna/homology/Mallet/wojc1jc2/slowNormParams/newParams/forReview/stnta_zero/output/test_PDF_PD_stnta_zero_BL.err#SBATCH --job-name=PD_stnta_zero_BL
-#SBATCH --mem-per-cpu=3500mb
-#SBATCH --time 24:00:00
-python /home/j.bahuguna/homology/Mallet/wojc1jc2/slowNormParams/newParams/forReview/stnta_zero/GA/PD_stnta_zero_BL_.py

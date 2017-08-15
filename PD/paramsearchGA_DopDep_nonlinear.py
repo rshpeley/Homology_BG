@@ -95,7 +95,6 @@ def paramSearch(d,anti=0):
 			gpita = unknownparams['gpita'][ind[28]]
 			gpistn = unknownparams['gpistn'][ind[29]]
 			'''
-			# Dont add leak here, since the leak term shoudl be outside nonlinear function in the differential equation
 			A = np.matrix([[knownparams['d1d1'],knownparams['d1d2'],knownparams['d1fsi'],d1ta,d1ti,0.,0.],[knownparams['d2d1'],knownparams['d2d2'],knownparams['d2fsi'],d2ta,d2ti,0.,0.],[0.,0.,knownparams['fsifsi'],fsita,fsiti,0.,0.],[0,tad2,0.,tata,tati,tastn,0],[0.,tid2,0.,tita,titi,tistn,0.],[0.,0.,0.,stnta,stnti,knownparams['stnstn'],0.],[knownparams['gpid1'],0.,0.,knownparams['gpita'],knownparams['gpiti'],knownparams['gpistn'],knownparams['gpigpi']]])
 			#print A
 			B = np.matrix([jc1,jc2,jfsictx,0,0,jstnctx,0])
@@ -122,17 +121,12 @@ def paramSearch(d,anti=0):
 
 			# Checks Refer Figure 6I and 6J of Mallet 2008
 			tests = np.zeros(13)
-			#if np.round(np.mean(SWADopDepRates['ti'])) >= 19 and np.round(np.mean(SWADopDepRates['ti']))<=35: 				# Mean around 24, so +- 4Hz allowed
 			if np.round(np.mean(SWADopDepRates['ti'])) >= 19 and np.round(np.mean(SWADopDepRates['ti']))<=60: 				# Mean around 24, so +- 4Hz allowed
 				tests[0] = 1
 			
-			#if np.mean(ActDopDepRates['ta']) > np.mean(ActDopDepRates['ti']):
-			#if np.mean(ActDopDepRates['ti']) >= 10 and np.mean(ActDopDepRates['ti']) <18:		# Mean around 14
 			if np.round(np.mean(ActDopDepRates['ti'])) >= 7 and np.round(np.mean(ActDopDepRates['ti'])) <=19:		# Mean around 14
 				tests[1] = 1
 
-			#if np.mean(SWADopDepRates['ti']) > np.mean(ActDopDepRates['ti']):
-			#if np.mean(ActDopDepRates['ta']) > 16 and np.mean(ActDopDepRates['ta']) <=23: # Mean around 19 # 
 			if np.round(np.mean(ActDopDepRates['ta'])) >= 7 and np.round(np.mean(ActDopDepRates['ta'])) <=15: # Mean around 19
 				tests[7] = 1
 
@@ -156,13 +150,11 @@ def paramSearch(d,anti=0):
 			# Check if STN is anti-phase with TI
 			if SWADopDepRates['stn_ti'] < 0:# and SWADopDepRates['tiFF']>1.5:
 				tests[5] = 1 	
-			# Check if FSI activity is higher than Striatal MSN activity
-			#if np.mean(SWADopDepRates['fsi']) > np.mean(SWADopDepRates['d1']) and np.mean(SWADopDepRates['fsi']) > np.mean(SWADopDepRates['d2']):
+			# Check if TA and TI are strongly modulated
 			if SWADopDepRates['taFF'] > 1 or SWADopDepRates['tiFF'] > 1:
-				tests[6] = 1 # Commented because no combination was fulfilling this. Moreover, this is no where specified in mallet.
+				tests[6] = 1 
 			
 			# Since this is PD model, check D1 activity < D2 activity
-			#if np.mean(ActDopDepRates['d2']) > np.mean(ActDopDepRates['d1']):
 			tests[9] = 1 
 			# Sanity test , all rates are fairly above zero
 			if np.mean(SWADopDepRates['d1'][100./p.params["dt"]:]) > 0.5 and np.mean(SWADopDepRates['d2'][100./p.params["dt"]:]) > 0.5 and np.mean(SWADopDepRates['fsi'][100./p.params["dt"]:]) > 0.5 and	np.mean(SWADopDepRates['ta'][100./p.params["dt"]:]) > 1.0 and np.mean(SWADopDepRates['ti'][100./p.params["dt"]:]) > 1.0 and np.mean(SWADopDepRates['stn'][100./p.params["dt"]:]) > 1.0 and np.mean(SWADopDepRates['gpi'][100./p.params["dt"]:]) > 0.1:
@@ -182,10 +174,8 @@ def paramSearch(d,anti=0):
 			
 			print "Grades[i]",Grades[i]	
 		# Select the ones with the higest grades
-		# Consider both 11 and 12 here , but strictly 12 in findDist, so that the probability of finding combinations are incraesed.
 		cutoff = 12
 		sorted_list = sorted(zip(Grades,elmt),reverse=True,key=lambda x:x[0])
-		#nextgen = [sorted_list[i] for i in xrange(len(sorted_list)) if sorted_list[i][0]>=cutoff]
 		nextgen = [sorted_list[i] for i in xrange(len(sorted_list)) if sorted_list[i][0]>cutoff]
 
 		no12s = len([e[0] for e in nextgen if e[0] == 12.])
@@ -301,12 +291,9 @@ def RMS(T,sig):
 
 
 
-def S(x,theta,Qmax,a):
-	#sigma=4.
+def S(x,theta,Qmax):
 	sigma=4.
 	funcVal = Qmax*(1./(1.+np.exp(-(x-theta)/sigma)))
-	#funcVal = (Qmax/(1.+(np.exp(-a*x/Qmax)*(Qmax-Qbase)/Qbase) ))
-	#funcVal = Qmax*(1./(1.+np.exp(-a*(x-theta)/sigma)))
 	return funcVal 	
 	#return x
 

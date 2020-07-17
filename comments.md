@@ -42,8 +42,17 @@ __Supplementary Figure 7__ | Firing rates and phase relationships for valid and 
 
 ###code
 
-In `analysisFFT.py` a comment gives the numpy version as `1.7.2`, which goes back to the date of 2013-12-31. This means a python `2` odd release which increases the difficulty of using this code. It may be necessary to convert to Python `3`.
+In `analysisFFT.py` a comment gives the numpy version as `1.7.2`, which goes back to the date of 2013-12-31. This means a python `2` (ish) release which increases the difficulty of using this code. It may be necessary to convert to Python `3`.
 
 ```python
 fftfreq = np.fft.fftfreq(int(len(ipctx1["ip"][0])/dt))[:(int(len(ipctx1["ip"][0])/dt))/2] # Had to calculate on local machine, since this version of numpy (1.7.2) doesnt have np.fft.rfftfreq
 ```
+I can find no conditional,
+```python
+if __name__ == "__main__":
+  ```
+which indicates a program run from the shell. This means the `py` files were likely run from the ipython shell. This isn't really an issue since we were going to use colab in any case, except colab is moving away from python `2`. If we want our code to be repeatable it will have to be translated to python `3`.
+
+In any case, [stackoverflow](https://stackoverflow.com/questions/61475248/how-can-i-use-python-2-on-google-colab) has a temporary work-around where we could try the python `2` code to see if it's usable for what we need, then use the working `2` version to create the `3` version.
+
+
